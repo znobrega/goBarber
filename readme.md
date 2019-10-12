@@ -1,7 +1,7 @@
 ## Configs
 
-1- 
-prettier and 
+1- .eslint.js
+.prettierrc and 
 .editorconfig
 
  2- yarn add sequelize
