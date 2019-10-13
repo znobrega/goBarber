@@ -26,5 +26,6 @@ class UserController {
     user = req.userId
     return res.json({message: "new"})
   }
+}
 
 export default new UserController();
