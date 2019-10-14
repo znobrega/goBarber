@@ -1,7 +1,7 @@
 ## Configs
 
-1- 
-prettier and 
+1-
+prettier and
 .editorconfig
 
  2- yarn add sequelize
@@ -9,7 +9,7 @@ prettier and
  3- yarn add sequelize-cli -D
  interface com linha de comandos para o sequelize
  essa interface nao consegue ler arquivos com export default, por isso deve se usar o common js
- .sequelizerc 
+ .sequelizerc
  e config/database.js
 
  yarn add pg pg-hstore
@@ -25,7 +25,7 @@ Cria a migrations de users:
 yarn sequelize migration:create --name=create-users
 ```
 
-Vai criar algo assim na pasta de migrations: 
+Vai criar algo assim na pasta de migrations:
 ```
 'use strict';
  module.exports = {
@@ -49,7 +49,7 @@ Vai criar algo assim na pasta de migrations:
       },
       password_hash: {
         type: Sequelize.STRING,
-        allowNull: false, 
+        allowNull: false,
       },
       //Client or provider
       // Client: false, prestador: true
@@ -87,7 +87,7 @@ yarn sequelize db:migrate
 
 ```
 yarn sequelize db:migrate:undo
-or 
+or
 yarn sequelize db:migrate:undo:all
 ```
 
@@ -146,3 +146,14 @@ class Database {
 ```
 ue
 ```
+
+## Authentication JWT
+
+## Middlewares
+
+
+## Validation
+
+<p>yarn add yup
+
+import * as Yup from 'yup'</p>
