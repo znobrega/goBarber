@@ -1,7 +1,7 @@
 ## Configs
 
-1-
-prettier and
+1- .eslint.js
+.prettierrc and
 .editorconfig
 
  2- yarn add sequelize
@@ -95,6 +95,9 @@ yarn sequelize db:migrate:undo:all
 
 <p>User.js => importa o Sequelize e { Model }, cria uma classe que herda de Model, no metodo static init(sequelize) chama o super.init e passa todos os TIPOS das colunas como primeiro parametro, como segundo parametro passa um objeto com o sequelize sequelize e exporta</p>
 
+## DataBase index
+<p>Tem que importar o database index no app.js</p>
+
 ## Model loading
 
 <p>index.js na pasta database</p>
@@ -146,11 +149,9 @@ class Database {
 ```
 ue
 ```
-
 ## Authentication JWT
 
 ## Middlewares
-
 
 ## Validation
 
