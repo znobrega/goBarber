@@ -10,7 +10,9 @@ class UserController {
       return res.status(400).json({ error: 'User already exists.' });
     }
 
-    const { id, name, email, provider } = await User.create(req.body);
+    const {
+ id, name, email, provider 
+} = await User.create(req.body);
 
     return res.json({
       id,
@@ -21,8 +23,8 @@ class UserController {
   }
 
   async update(req, res) {
-    user = req.userId
-    return res.json({message: "new"})
+    user = req.userId;
+    return res.json({ message: 'new' });
   }
 }
 

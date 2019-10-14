@@ -9,9 +9,7 @@ const routes = new express.Router();
 
 
 routes.post('/users', UserController.store);
-routes.post('/sessions', SessionController.store);
-
-routes.get('/', (req, res) => res.json({m: "hey"}));
+routes.post('/  ', SessionController.store);
 
 routes.use(authMiddleware);
 

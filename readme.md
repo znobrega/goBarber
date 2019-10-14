@@ -1,7 +1,7 @@
 ## Configs
 
 1- .eslint.js
-.prettierrc and 
+.prettierrc and
 .editorconfig
 
  2- yarn add sequelize
@@ -9,7 +9,7 @@
  3- yarn add sequelize-cli -D
  interface com linha de comandos para o sequelize
  essa interface nao consegue ler arquivos com export default, por isso deve se usar o common js
- .sequelizerc 
+ .sequelizerc
  e config/database.js
 
  yarn add pg pg-hstore
@@ -25,7 +25,7 @@ Cria a migrations de users:
 yarn sequelize migration:create --name=create-users
 ```
 
-Vai criar algo assim na pasta de migrations: 
+Vai criar algo assim na pasta de migrations:
 ```
 'use strict';
  module.exports = {
@@ -49,7 +49,7 @@ Vai criar algo assim na pasta de migrations:
       },
       password_hash: {
         type: Sequelize.STRING,
-        allowNull: false, 
+        allowNull: false,
       },
       //Client or provider
       // Client: false, prestador: true
@@ -87,13 +87,16 @@ yarn sequelize db:migrate
 
 ```
 yarn sequelize db:migrate:undo
-or 
+or
 yarn sequelize db:migrate:undo:all
 ```
 
 ## Model
 
 <p>User.js => importa o Sequelize e { Model }, cria uma classe que herda de Model, no metodo static init(sequelize) chama o super.init e passa todos os TIPOS das colunas como primeiro parametro, como segundo parametro passa um objeto com o sequelize sequelize e exporta</p>
+
+## DataBase index
+<p>Tem que importar o database index no app.js</p>
 
 ## Model loading
 
