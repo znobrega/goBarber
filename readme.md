@@ -158,3 +158,35 @@ ue
 <p>yarn add yup
 
 import * as Yup from 'yup'</p>
+
+
+## Multer
+
+<p>Upload de arquivos com multipart form data</p>
+
+<p>No arquivo multer.js é feita a configuração, ou seja, o nome que a imagem será salva e em qual diretória ela será salva</p>
+
+```
+export default {
+  storage: multer.diskStorage({
+    destination: resolve(__dirname, '..','..', 'tmp', 'uploads'),
+    filename: (req, file, cb) {
+      crypto.randomBytes(16, (err, res) => {
+        if (err) return cb(err);
+
+        return cb(null, res.toString('hex') + extName(file.originalName))
+      })
+    }
+  }),
+};
+
+```
+
+<p>Com o arquivo de configuração é necessário criar uma middleware na rota que receberá a imagem. Importamos o multer e sua configuração no arquivo de routes, passamos as configurações como parametro do multer() e atribuimos à alguma variável. Usamos essa variável como middleware, usando o método single('file') que representa o upload único com o campo file</p>
+
+## FileController
+<p>Nova tabela no banco de dados</p>
+
+```
+yarn sequelize migration:create --name=create-files
+```

@@ -45,11 +45,14 @@ class UserController {
         .min(6)
         .when('oldPassword', (oldPassword, field) => (oldPassword ? field.required() : field)),
       confirmPassword: Yup.string()
-        .when('password', (password, field) =>
-          (password ? field.required.oneOf([Yup.ref('password')]) : field)),
+        .when('password', (password, field) => (password ? field.required.oneOf([Yup.ref('password')]) : field)),
     });
 
     const user = await User.findByPk(req.userId);
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation error' });
+    }
 
     if (email !== user.email) {
       const userExists = User.findOne({ where: { email } });
