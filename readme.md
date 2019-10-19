@@ -235,5 +235,72 @@ const providers = await User.findAll({
 >startOfHour(<Date>): Somente hora da data
 >startOfDay(<Date>): Hora inicial do dia
 >endOfDay(<Date>): Hora final do dia
+>format(<Date>, <String>, <Object> configs)
+
+```
+  const formattedDate = format(
+    hourStart,
+    "'dia' dd 'de' MMM, 'ás' H:mm'h'",
+    {
+      locale: pt,
+    },
+  );
+```
 
 ## Using NoSql, MongoDB
+
+>docker run --name mongoBarber -p 27017:27017 -d -t mongo
+
+>yarn add mongoose
+
+<ul>
+<li>Muito performático</li>
+<li>Quando não precisar de relacionamentos</li>
+<li>Guarda o estado do determinado momento
+    <p>No chat do discord, por exemplo, quando algum usuário muda o nome as mensagens antigas permanecem com o nome antigo</p>
+</li>
+</ul>
+
+<p>As notificações ficam da seguinte maneira: </p>
+
+```
+/**
+     * Notify appointment provider
+     */
+    const user = await User.findByPk(req.userId);
+    const formattedDate = format(
+      hourStart,
+      "'dia' dd 'de' MMMM', às' H:mm'h'",
+      {
+        locale: pt,
+      }
+    );
+    await Notification.create({
+      content: `Novo agendamento de ${user.name} para o ${formattedDate}`,
+      user: provider_id,
+    });
+```
+
+<p>Sempre que um usuário fizer um agendamento, o provedor do serviço receberá uma notificação. </p>
+
+<p>Ordenação decrescente com o mongo: </p>
+
+```
+    const notifications = await Notification.find({
+      user: req.userId,
+    }).sort({ createdAt: 'desc' }).limit(20);
+
+```
+
+<p>Metodo findByIdAndUpdate tem o retorno void, para que ele retorne o registro atualizado é preciso passar o terceiro parametro { new: true }</p>
+
+```
+findByIdAndUpdate(<MongoID> id, <Object>, <Object> config)
+
+    const notification = Notification.findByIdAndUpdate(
+      req.params.id,
+      { read: true },
+      { new: true },
+    );
+
+```

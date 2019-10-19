@@ -1,10 +1,14 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore } from 'date-fns';
+import {
+  startOfHour, parseISO, isBefore, format, subHours,
+} from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
-import ProviderController from './ProviderController';
+
+import Notification from '../schemas/Notification';
 
 class AppointmentController {
   async store(req, res) {
@@ -19,12 +23,15 @@ class AppointmentController {
 
     const { provider_id, date } = req.body;
 
-    const user = await User.findOne({ where: { id: provider_id, provider: true } });
-
-    if (!user) {
-      return res.status(401).json({ error: 'You can only create appointments with a provider' });
+    if (provider_id === req.userId) {
+      return res.status(401).json({ error: 'Provider is requesting their own services' });
     }
 
+    const isProvider = await User.findOne({ where: { id: provider_id, provider: true } });
+
+    if (!isProvider) {
+      return res.status(401).json({ error: 'You can only create appointments with a provider' });
+    }
 
     // parseISO tranforma o date em Object Date
     // startOfHour pega somente a HORA passada
@@ -47,7 +54,25 @@ class AppointmentController {
       return res.status(400).json({ error: 'Appointment date is not available' });
     }
 
-    const appointment = await Appointment.create({ user_id: req.userId, provider_id, date });
+    const appointment = await Appointment.create({
+      user_id: req.userId,
+      provider_id,
+      date,
+    });
+
+    const { name } = await User.findByPk(req.userId);
+    const formattedDate = format(
+      hourStart,
+      "'dia' dd 'de' MMM, 'ás' H:mm'h'",
+      {
+        locale: pt,
+      },
+    );
+
+    await Notification.create({
+      content: `Novo agendamento de ${name} para o ${formattedDate}`,
+      user: provider_id,
+    });
 
     return res.json(appointment);
   }
@@ -77,6 +102,26 @@ class AppointmentController {
     });
 
     return res.json(appointments);
+  }
+
+  async delete(req, res) {
+    const appointment = await Appointment.findByPk(req.params.id);
+
+    if (appointment.user_id !== req.userId) {
+      return res.status(401).json({ error: "You don't have permission to cancel this appointment." });
+    }
+
+    const dateWithSub = subHours(appointment.date, 2);
+
+    if (isBefore(dateWithSub, new Date())) {
+      return res.status(401).json({ error: 'You can only cancel appointmenst 2 hours in advance.' });
+    }
+
+    appointment.canceled_at = new Date();
+
+    await appointment.save();
+
+    return res.json(appointment);
   }
 }
 
