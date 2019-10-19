@@ -186,7 +186,54 @@ export default {
 
 ## FileController
 <p>Nova tabela no banco de dados</p>
+>yarn sequelize migration:create --name=create-files
+
+<p>Informação cedida pelo multer: </p>
 
 ```
-yarn sequelize migration:create --name=create-files
+const { originalname: name, filename: path } = req.file;
+
 ```
+
+
+## Associates
+
+<p>Expansão de dados dos campos que possuem relacionamento</p>
+
+```
+const providers = await User.findAll({
+      where: { provider: true },
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [{
+        model: File,
+        as: 'avatar',
+        attributes: ['name', 'path', 'url'],
+      }],
+    });
+```
+
+## Pagination
+
+```
+    const { page = 1 } = req.query;
+
+    const appointments = await Appointment.findAll({
+      where: {
+        user_id: req.provider_id,
+        canceled_at: null,
+      },
+      order: ['date'],
+      attributes: ['id', 'date'],
+      limit: 20,
+      offset: (page - 1) * 20,
+```
+
+## date-fns
+
+>parseISO(<String>): Transforma uma string date em um OBJECT DATE
+>isBefore(<Date>, <Date>): Verifica se a data é anterior a outra
+>startOfHour(<Date>): Somente hora da data
+>startOfDay(<Date>): Hora inicial do dia
+>endOfDay(<Date>): Hora final do dia
+
+## Using NoSql, MongoDB
