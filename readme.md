@@ -235,7 +235,8 @@ const providers = await User.findAll({
 >startOfHour(<Date>): Somente hora da data
 >startOfDay(<Date>): Hora inicial do dia
 >endOfDay(<Date>): Hora final do dia
->format(<Date>, <String>, <Object> configs)
+>format(<Date>, <String>, <Object> configs): F  ormata a data com o locale passado no config
+>subHours(<Date>, <Number>): subtrai o number da data informada
 
 ```
   const formattedDate = format(
@@ -304,3 +305,23 @@ findByIdAndUpdate(<MongoID> id, <Object>, <Object> config)
     );
 
 ```
+
+## Nodemailer
+
+>yarn add nodemailer
+
+Amazon SES(barato)
+Mailgun
+Sparkpost
+Mandril(Manchimp)
+
+Mailtrap só funciono para ambiente de desenvolvimento
+
+## Email template
+
+<p>Template engine para emails: </p>
+
+>handlebars
+
+>yarn add express-handlebars
+>yarn add nodemailer-express-handlebars
