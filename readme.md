@@ -464,6 +464,7 @@ await Mail.sendMail({
 - É interesante que cada serviço tenha uma Queue
 - Pra cada tarefa é importante ter uma key em app/jobs..
 
+> yarn run queue
 
 ## Exceptions
 
@@ -474,7 +475,22 @@ await Mail.sendMail({
 <li>yarn add @sentry/node@5.4.3</li>
 <li>Import no app, import * as Sentry from 'sentry</li>
 <li>config, sentry.js</li>
+<li>yarn add express-async-errors</li>
+<li>import 'express-async-errors';</li>
+<li>yarn add youch</li>
+<li>middleware pare tratar excessão com 4 parametos</li>
 </ul>
 
 ### Alternativa
 - Bugsnack(?)
+
+
+## .ENV
+
+<p>Variáveis de ambiente</p>
+
+- process.env.VARIABLE
+- adicionar o arquivo .env no .gitignore
+- Importar em app, queue e database.js(config)
+
+>yarn add dotenv

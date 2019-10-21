@@ -1,7 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
 
-const BASE_URL = 'localhost:3000';
-
 class File extends Model {
   static init(sequelize) {
     super.init({
@@ -10,7 +8,7 @@ class File extends Model {
       url: {
         type: Sequelize.VIRTUAL,
         get() {
-          return `http://${BASE_URL}/files/${this.path}`;
+          return `http://${process.env.APP_URL}/files/${this.path}`;
         },
       },
     },
