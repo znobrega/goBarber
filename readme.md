@@ -220,6 +220,43 @@ const { originalname: name, filename: path } = req.file;
 
 ```
 
+<p>Com o novo o model file, precisamos criar um relacionamento com o model User</p>
+<p>Para isso precisamos fazer algumas alterações em User:</p>
+
+- Criar uma nova migration para adicionar uma coluna a tabela, essa coluna será o relacionamento com File
+
+```
+module.exports = {
+  up: (queryInterface, Sequelize) => queryInterface.addColumn('users', 'avatar_id', {
+    type: Sequelize.INTEGER,
+    references: { model: 'files', key: 'id' },
+    allowNull: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  }),
+
+  down: (queryInterface) => queryInterface.removeColumn('users', 'avatar_id'),
+};
+```
+
+- No model user criamos um metodo static associate, onde, recebemos os models e usamos o metodo **belongsTo** do sequelize para fazer o relacionamento.
+
+```
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
+  }
+```
+- No index do database, chamamos esse metodo associate após o método init
+
+```
+  init() {
+    this.connection = new Sequelize(databaseConfig);
+
+    models
+      .map((model) => model.init(this.connection))
+      .map((model) => model.associate && model.associate(this.connection.models));
+  }
+```
 
 ## Associates
 
