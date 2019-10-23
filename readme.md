@@ -223,6 +223,9 @@ const { originalname: name, filename: path } = req.file;
 <p>Com o novo o model file, precisamos criar um relacionamento com o model User</p>
 <p>Para isso precisamos fazer algumas alterações em User:</p>
 
+
+## Associates
+
 - Criar uma nova migration para adicionar uma coluna a tabela, essa coluna será o relacionamento com File
 
 ```
@@ -258,7 +261,6 @@ module.exports = {
   }
 ```
 
-## Associates
 
 <p>Expansão de dados dos campos que possuem relacionamento</p>
 
@@ -325,13 +327,11 @@ const providers = await User.findAll({
 
 >yarn add mongoose
 
-<ul>
-<li>Muito performático</li>
-<li>Quando não precisar de relacionamentos</li>
-<li>Guarda o estado do determinado momento
+- Muito performático
+- Quando não precisar de relacionamentos
+- Guarda o estado do determinado momento
     <p>No chat do discord, por exemplo, quando algum usuário muda o nome, as mensagens antigas permanecem com o nome antigo.</p>
-</li>
-</ul>
+- 
 
 <p>As notificações ficam da seguinte maneira: </p>
 
