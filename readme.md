@@ -16,7 +16,7 @@
 
  >yarn add pg pg-hstore
 
- ---
+ ---js
 
 ## Database
 <p>Configurações para o banco underscored tranforma UserGroups em user_groups</p>
@@ -31,7 +31,7 @@ yarn sequelize migration:create --name=create-users
 ```
 
 Vai criar algo assim na pasta de migrations:
-```
+```js
 'use strict';
  module.exports = {
    //quando a migration for executada
@@ -110,7 +110,7 @@ yarn sequelize db:migrate:undo:all
 
 <p>index.js na pasta database</p>
 
-```
+```js
 class Database {
   constructor() {
     this.init();
@@ -128,7 +128,7 @@ class Database {
 ## User create
 <p>Controller user </p>
 
-```
+```js
   async store(req, res) {
     const userExists = await User.findOne({
       where: { email: req.body.email }
@@ -173,7 +173,7 @@ ue
 
 import * as Yup from 'yup'</p>
 
-```
+```js
 const schema = Yup.object().shape({
   password: Yup.string().min(6).required(),
   confirmPassword: Yup.string()
@@ -191,7 +191,7 @@ const schema = Yup.object().shape({
 
 <p>No arquivo multer.js é feita a configuração, ou seja, o nome que a imagem será salva e em qual diretória ela será salva</p>
 
-```
+```js
 export default {
   storage: multer.diskStorage({
     destination: resolve(__dirname, '..','..', 'tmp', 'uploads'),
@@ -228,7 +228,7 @@ const { originalname: name, filename: path } = req.file;
 
 - Criar uma nova migration para adicionar uma coluna a tabela, essa coluna será o relacionamento com File
 
-```
+```jsjs
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.addColumn('users', 'avatar_id', {
     type: Sequelize.INTEGER,
@@ -244,14 +244,14 @@ module.exports = {
 
 - No model user criamos um metodo static associate, onde, recebemos os models e usamos o metodo **belongsTo** do sequelize para fazer o relacionamento.
 
-```
+```js
   static associate(models) {
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 ```
 - No index do database, chamamos esse metodo associate após o método init
 
-```
+```js
   init() {
     this.connection = new Sequelize(databaseConfig);
 
@@ -264,7 +264,7 @@ module.exports = {
 
 <p>Expansão de dados dos campos que possuem relacionamento</p>
 
-```
+```js
 const providers = await User.findAll({
       where: { provider: true },
       attributes: ['id', 'name', 'email', 'avatar_id'],
@@ -278,7 +278,7 @@ const providers = await User.findAll({
 
 ## Pagination
 
-```
+```js
     const { page = 1 } = req.query;
 
     const appointments = await Appointment.findAll({
@@ -311,7 +311,7 @@ const providers = await User.findAll({
 <br/>
 
 
-```
+```js
   const formattedDate = format(
     hourStart,
     "'dia' dd 'de' MMM, 'ás' H:mm'h'",
@@ -335,7 +335,7 @@ const providers = await User.findAll({
 
 <p>As notificações ficam da seguinte maneira: </p>
 
-```
+```js
     /**
      * Notify appointment provider
      */
@@ -357,7 +357,7 @@ const providers = await User.findAll({
 
 <p>Ordenação decrescente com o mongo: </p>
 
-```
+```js
     const notifications = await Notification.find({
       user: req.userId,
     }).sort({ createdAt: 'desc' }).limit(20);
@@ -405,7 +405,7 @@ findByIdAndUpdate(<MongoID> id, <Object>, <Object> config)
 <p>Na pasta views é o local onde estão os templates</p>
 <p>As configurações necessárias: </p>
 
-```
+```js
 export default {
   host: '',
   post: '',
@@ -422,7 +422,7 @@ export default {
 
 <p>Além disso, é feito uma pasta LIB, nela ficam as configurações para bibliotecas extenas, para o Mail o arquivo fica da seguinte maneira: </p>
 
-```
+```js
 class Mail {
   constructor() {
     const { host, port, secure, auth } = mailConfig;
@@ -463,7 +463,7 @@ class Mail {
 
 <p>Para o envio do email pelo controller, importamos o Singleton Mail e chamados o método sendMail, passando os dados necessários</p>
 
-```
+```js
 await Mail.sendMail({
   to: user.provider.name,
   subject: "Cancelamento de serviço",
